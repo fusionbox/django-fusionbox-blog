@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Contact &mdash; django-fusionbox-contact v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-fusionbox-contact v0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-fusionbox-contact v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="contact">
+<h1>Contact<a class="headerlink" href="#contact" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>The contact module is designed to be a DRY style contact form.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Add <tt class="docutils literal"><span class="pre">'fusionbox.contact'</span></tt> to your <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt></li>
+<li>Run <cite>./manage.py migrate</cite> to create the necessary database tables</li>
+<li>Create the required templates (see templates and views below)</li>
+<li>Add urls to your url conf</li>
+</ul>
+</div>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>The contact module has the following settings values which which may be used to customize its behavior</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">CONTACT_FORM_RECIPIENTS</span></tt></dt>
+<dd>Iterable of email addresses.  Each person in this list will be emailed for each contact form recipient.  If not present, the contact module will use the values present in the Recipients table.  (See the Recipients section)</dd>
+</dl>
+</div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<p>The contact application provides the following models.</p>
+</div>
+<div class="section" id="views">
+<h2>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h2>
+<p>The contact module provides the following class-based views located in <tt class="docutils literal"><span class="pre">fusionbox.contact.views</span></tt></p>
+</div>
+<div class="section" id="urls">
+<h2>URLS<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h2>
+<p>You may include the urls for the contact module one of two ways.</p>
+<ol class="arabic">
+<li><p class="first">Include the built in url conf somewhere in your site url conf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span><span class="p">(</span><span class="s">r&#39;^contact-us/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;fusionbox.contact.urls&#39;</span><span class="p">)),</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Manually include the urls for both the <tt class="docutils literal"><span class="pre">index</span></tt> and <tt class="docutils literal"><span class="pre">success</span></tt> views.  Often this is the best way to customize the contact form or add extra context variables.  The example below is equivilant to the include statement:</p>
+<div class="highlight-python"><pre>(r'^contact-us/$', 'fusionbox.contact.views.index', name='contact_index'),
+(r'^contact-us/success/$', 'fusionbox.contact.views.success', name='contact_success'),</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="templates">
+<h2>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
+<p>The contact module requires you to create two templates.</p>
+<div class="section" id="primary-contact-form-template">
+<h3>Primary Contact Form Template<a class="headerlink" href="#primary-contact-form-template" title="Permalink to this headline">¶</a></h3>
+<p>Default Location: <tt class="docutils literal"><span class="pre">contact/index.html</span></tt></p>
+<p>This template is rendered with the context variable <tt class="docutils literal"><span class="pre">form</span></tt>.</p>
+<p>Example:</p>
+<div class="highlight-python"><pre>&lt;form method-"post"&gt;
+    {% csrf_token %}
+    {{ form }}
+    {% uncaptcha %}
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</pre>
+</div>
+</div>
+<div class="section" id="success-page-template">
+<h3>Success Page Template<a class="headerlink" href="#success-page-template" title="Permalink to this headline">¶</a></h3>
+<p>Default Location: <tt class="docutils literal"><span class="pre">contact/success.html</span></tt></p>
+<p>Example:</p>
+<div class="highlight-python"><pre>&lt;p&gt;Thank you for contacting Us.  Someone will be in touch with you shortly!&lt;/p&gt;</pre>
+</div>
+</div>
+<div class="section" id="email-template">
+<h3>Email Template<a class="headerlink" href="#email-template" title="Permalink to this headline">¶</a></h3>
+<p>Default Location: <tt class="docutils literal"><span class="pre">mail/contact_form_submission.html</span></tt></p>
+<p>Successful contact form submissions will be emailed using the fusionbox <tt class="docutils literal"><span class="pre">send_markdown_email</span></tt> function to a list of recipients.  The contact module will first look for <tt class="docutils literal"><span class="pre">CONTACT_FORM_RECIPIENTS</span></tt> in the settings file, and if not will use the values from the Recipients table.</p>
+<p>Default Template:</p>
+<div class="highlight-python"><pre>---
+subject: Someone has filled out the contact form
+---
+
+Someone has submitted the contact form.
+
+- *Name:* {{ submission.name }}
+- *Email:* {{ submission.email }}
+- *Comment:* {{ submission.comment }}
+
+Use the following link to view this submission.
+
+[{{ host }}{{ submission.get_absolute_url }}]({{ host }}{{ submission.get_absolute_url }})</pre>
+</div>
+</div>
+</div>
+<div class="section" id="admin">
+<h2>Admin<a class="headerlink" href="#admin" title="Permalink to this headline">¶</a></h2>
+<p>The contact app automatically registers the following admin classes for its models.</p>
+</div>
+<div class="section" id="recipients">
+<h2>Recipients<a class="headerlink" href="#recipients" title="Permalink to this headline">¶</a></h2>
+<p>The contact module has two methods for designating recipients to be emailed with the details from contact form submissions.  If the <tt class="docutils literal"><span class="pre">CONTACT_FORM_RECIPIENTS</span></tt> value is present in the settings file, those recipeints will be used.</p>
+<p>If the setting is not present, the Recipients model will be registered for the admin site, and the values there will be used.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Contact</a><ul>
+<li><a class="reference internal" href="#intro">Intro</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#settings">Settings</a></li>
+<li><a class="reference internal" href="#models">Models</a></li>
+<li><a class="reference internal" href="#views">Views</a></li>
+<li><a class="reference internal" href="#urls">URLS</a></li>
+<li><a class="reference internal" href="#templates">Templates</a><ul>
+<li><a class="reference internal" href="#primary-contact-form-template">Primary Contact Form Template</a></li>
+<li><a class="reference internal" href="#success-page-template">Success Page Template</a></li>
+<li><a class="reference internal" href="#email-template">Email Template</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#admin">Admin</a></li>
+<li><a class="reference internal" href="#recipients">Recipients</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/contact.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">django-fusionbox-contact v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Fusionbox.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>
