@@ -1,4 +1,8 @@
 -e git://github.com/fusionbox/django-fusionbox.git#egg=django_fusionbox
+-e git+ssh://git@github.com/fusionbox/django-tagging.git#egg=django_tagging-dev
+-e git+ssh://git@github.com/fusionbox/django-ckeditor.git#egg=django_ckeditor-dev
+-e git+ssh://git@github.com/etianen/django-reversion.git#egg=django-reversion
+django-extensions
 Django==1.4.1
 Fabric==1.4.3
 South
