@@ -16,7 +16,7 @@ Models
 ------
 
 .. automodule:: fusionbox.blog.models
-    :members: 
+    :members: Blog, Blog.QuerySet
 
 Views
 -----

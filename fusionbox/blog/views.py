@@ -24,6 +24,9 @@ class BlogContextMixin(object):
 
 
 class IndexView(WithTagMixin, BlogContextMixin, ListView):
+    """
+    class-based-view for displaying the index listing for blog entries.
+    """
     model = Blog
     context_object_name = 'posts'
     paginate_by = 10

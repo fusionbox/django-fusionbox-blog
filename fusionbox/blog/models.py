@@ -22,6 +22,10 @@ add_introspection_rules([], ["^tagging\.fields\.TagField"])
 
 
 class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
+    """
+    Base model for blog entries. Uses
+    :class:`fusionbox.db.models.QuerySetManager` as as its primary manager.
+    """
     slug = AutoSlugField(populate_from='title')
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User, related_name='blogs')
@@ -39,19 +43,24 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
     def __unicode__(self):
         return self.title
 
-
     class QuerySet(behaviors.AdminSearchableQueryset):
+        """
+        Custom QuerySet class implementing ``publish`` and ``year_month_group``
+        queryset methods
+        """
         search_fields = ('title', 'author__first_name', 'author__last_name', 'summary', 'body', 'tags')
 
         def published(self):
-            # duplicated from behaviors.Publishable because we need a method, not an extra manager
+            """
+            duplicated from :class:`fusionbox.behaviors.Publishable` because we
+            need a method, not an extra manager
+            """
             return self.filter(is_published=True, publish_at__lte=datetime.datetime.now())
 
         def year_month_groups(self):
             """
             returns a dictionary of year -> (dictionary of month -> list of objects)
             """
-
             res = collections.defaultdict(lambda: collections.defaultdict(list))
             # this does too many queries, because all the tags are fetched. it
             # should use defer('tags'), but that causes a bug. See the
@@ -65,7 +74,6 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
             for k in res:
                 res[k] = dict(res[k])
             return dict(res)
-
 
     @models.permalink
     def get_absolute_url(self):
