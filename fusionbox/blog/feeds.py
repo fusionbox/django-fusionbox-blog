@@ -3,13 +3,23 @@ from django.contrib.syndication.views import Feed
 from django.contrib.auth.models import User
 from django.http import Http404
 
+#
+# Support for django 1.3
+#
+try:
+    from django.core.urlresolvers import reverse_lazy
+except ImportError:
+    from django.utils.functional import lazy
+    reverse_lazy = lazy(urlresolvers.reverse)
+
 from tagging.models import Tag, TaggedItem
 
 from fusionbox.blog.models import Blog
 
+
 class BlogFeed(Feed):
     title = "Blog"
-    link = urlresolvers.reverse_lazy('blog:blog_index')
+    link = reverse_lazy('blog:blog_index')
 
     def items(self, obj):
         if isinstance(obj, User):
@@ -54,4 +64,3 @@ class BlogFeed(Feed):
             raise Http404
         except KeyError:
             pass
-
