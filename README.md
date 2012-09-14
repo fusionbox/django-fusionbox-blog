@@ -1,4 +1,4 @@
-# django-fusionbox-contact
+# django-fusionbox-blog
 
 Reusable Blog application
 
