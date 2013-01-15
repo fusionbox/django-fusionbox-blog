@@ -1,10 +1,11 @@
 import datetime
 import collections
 
+from django.conf import settings
 from django.db import models
 from django.core.cache import cache
+from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField
 
 import tagging
@@ -28,7 +29,7 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
     """
     slug = AutoSlugField(populate_from='title')
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(User, related_name='blogs')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='blogs')
     summary = models.TextField()
     body = RichTextField()
     tags = tagging.fields.TagField()
@@ -84,5 +85,5 @@ def update_cache_version(*args, **kwargs):
     cache.add('fusionbox.blog.all_blogs.version', 0)
     cache.incr('fusionbox.blog.all_blogs.version')
 
-post_save.connect(update_cache_version, sender=User)
+post_save.connect(update_cache_version, sender=get_user_model())
 post_save.connect(update_cache_version, sender=Blog)

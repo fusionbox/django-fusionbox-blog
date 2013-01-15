@@ -1,7 +1,9 @@
 from django.core import urlresolvers
 from django.contrib.syndication.views import Feed
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import Http404
+
+User = get_user_model()
 
 #
 # Support for django 1.3

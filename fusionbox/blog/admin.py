@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from reversion.admin import VersionAdmin
 
 from fusionbox.mail import send_markdown_mail
 
 from .models import *
+
+User = get_user_model()
 
 
 class BlogAdmin(VersionAdmin):
@@ -44,7 +46,7 @@ class BlogModerator(CommentModerator):
                 {'comment': comment,
                  'blog': content_obj,
                  'request': request},
-                (i.email for i in User.objects.filter(is_staff=True)),
+                (i.email for i in User.objects.filter(is_superuser=True)),
                 )
         messages.success(request, 'Your comment was submitted for moderation.')
 

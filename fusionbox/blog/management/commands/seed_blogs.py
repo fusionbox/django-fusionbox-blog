@@ -4,11 +4,13 @@ import urllib
 from optparse import make_option
 
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.files.storage import default_storage
 from django.core.files.base import File
 
 from fusionbox.blog.models import Blog
+
+User = get_user_model()
 
 word_list = ['john', 'intense', 'lucky', 'solid', 'hot', 'clever', 'amusing', 'wicked', 'damp', 'sticky', 'warm', 'courteous', 'young', 'slow', 'selfish', 'great', 'vigorous', 'glamorous', 'clean', 'placid', 'enthusiastic', 'instinctive', 'wild', 'hurt', 'tricky', 'diplomatic', 'sympathetic', 'painstaking', 'raspy', 'proud', 'thoughtful', 'delicious', 'itchy', 'cute', 'debtor', 'trip', 'france', 'cone', 'missile', 'statistic', 'equipment', 'push', 'fine', 'antarctica', 'apparel', 'meteorology', 'tsunami', 'head', 'balance', 'fowl', 'spoon', 'croissant', 'library', 'purchase', 'staircase', 'wasp', 'carnation', 'cannon', 'bronze', 'glass', 'kendo', 'cello', 'taiwan', 'shape', 'cauliflower', 'green', 'run', 'scarf', 'tower', 'regret', 'disgust', 'roof', 'hen', 'law',]
 
