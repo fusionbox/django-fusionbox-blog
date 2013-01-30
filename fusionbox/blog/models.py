@@ -1,12 +1,15 @@
 import datetime
 import collections
 
-from django.conf import settings
 from django.db import models
 from django.core.cache import cache
-from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django_extensions.db.fields import AutoSlugField
+try:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+except ImportError:
+    from django.contrib.auth.models import User  # NOQA
 
 import tagging
 import tagging.fields
@@ -29,7 +32,7 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
     """
     slug = AutoSlugField(populate_from='title')
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='blogs')
+    author = models.ForeignKey(User, related_name='blogs')
     summary = models.TextField()
     body = RichTextField()
     tags = tagging.fields.TagField()

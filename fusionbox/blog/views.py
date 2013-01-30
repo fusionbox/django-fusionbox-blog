@@ -1,13 +1,15 @@
 from django.views.generic import (ListView, DetailView)
 from django.core.cache import cache
-from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+try:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+except ImportError:
+    from django.contrib.auth.models import User
 
 from tagging.models import Tag
 
 from .models import Blog
-
-User = get_user_model()
 
 
 class WithTagMixin(object):

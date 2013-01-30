@@ -1,11 +1,14 @@
 import datetime
 
 from django.test import TestCase
-from django.contrib.auth import get_user_model
+
+try:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+except ImportError:
+    from django.contrib.auth.models import User
 
 from fusionbox.blog.models import Blog
-
-User = get_user_model()
 
 
 class BlogTest(TestCase):
