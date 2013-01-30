@@ -10,9 +10,7 @@ from reversion.admin import VersionAdmin
 
 from fusionbox.mail import send_markdown_mail
 
-from .models import *
-
-User = get_user_model()
+from .models import Blog
 
 
 class BlogAdmin(VersionAdmin):

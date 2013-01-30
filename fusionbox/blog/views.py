@@ -18,6 +18,7 @@ class WithTagMixin(object):
         context['tags'] = Tag.objects.all()
         return context
 
+
 class BlogContextMixin(object):
     def get_context_data(self, *args, **kwargs):
         context = super(BlogContextMixin, self).get_context_data(*args, **kwargs)
@@ -42,7 +43,7 @@ class IndexView(WithTagMixin, BlogContextMixin, ListView):
         except KeyError:
             pass
         try:
-            qs = qs.filter(author__id = self.kwargs['author_id'])
+            qs = qs.filter(author__id=self.kwargs['author_id'])
         except KeyError:
             pass
 

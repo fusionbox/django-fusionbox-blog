@@ -28,7 +28,7 @@ class BlogTest(TestCase):
                 )
 
         groups = Blog.objects.year_month_groups()
-        assert len(groups) == 2 # 2 years
+        assert len(groups) == 2  # 2 years
         assert len(groups[2011]) == 1
         assert len(groups[2012]) == 1
         assert groups[2011][12][0] == a
