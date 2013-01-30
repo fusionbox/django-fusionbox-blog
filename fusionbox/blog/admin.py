@@ -10,7 +10,7 @@ from .models import *
 
 
 class BlogAdmin(VersionAdmin):
-    readonly_field = ('created_at',)
+    readonly_fields = ('created_at',)
     fieldsets = (
             (None, {
                 'fields': ['title', 'author', 'summary', 'body', 'tags',
