@@ -5,6 +5,7 @@ from django.db import models
 from django.core.cache import cache
 from django.db.models.signals import post_save
 from django_extensions.db.fields import AutoSlugField
+from django.utils.datastructures import SortedDict
 try:
     from django.contrib.auth import get_user_model
     User = get_user_model()
@@ -73,11 +74,14 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
             for obj in self:
                 res[obj.created_at.year][obj.created_at.month].append(obj)
 
+            sorted_result = SortedDict()
             # defaultdicts don't work right in django templates (.items # resolves as ['items'])
             # so convert to normal dicts
-            for k in res:
-                res[k] = dict(res[k])
-            return dict(res)
+            for k in sorted(res):
+                sorted_result[k] = SortedDict([
+                    (k_, res[k][k_]) for k_ in sorted(res[k])
+                ])
+            return sorted_result
 
     @models.permalink
     def get_absolute_url(self):
@@ -88,5 +92,5 @@ def update_cache_version(*args, **kwargs):
     cache.add('fusionbox.blog.all_blogs.version', 0)
     cache.incr('fusionbox.blog.all_blogs.version')
 
-post_save.connect(update_cache_version, sender=get_user_model())
+post_save.connect(update_cache_version, sender=User)
 post_save.connect(update_cache_version, sender=Blog)
