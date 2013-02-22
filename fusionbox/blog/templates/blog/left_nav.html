@@ -1,7 +1,7 @@
 {% load fusionbox_tags %}
 {% load cache %}
 
-{% cache 999999 blog_left_nav blogs_cache_version 2 %}
+{% cache 3600 blog_left_nav blogs_cache_version 2 %}
 <ul class="blogs_nav">
 {% for year, months in blogs_for_left_nav.items reversed %}
   <li><a class="year" href="#">{{ year }}</a>
