@@ -43,7 +43,7 @@ class BlogFeed(Feed):
         try:
             return item.author.first_name + item.author.last_name
         except AttributeError:
-            return item.get_full_name()
+            return item.author.get_full_name()
 
     def item_author_link(self, item):
         return urlresolvers.reverse('blog:author', kwargs={'author_id': item.author.id})
