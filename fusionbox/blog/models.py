@@ -53,7 +53,7 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
         Custom QuerySet class implementing ``publish`` and ``year_month_group``
         queryset methods
         """
-        search_fields = ('title', 'author__first_name', 'author__last_name', 'summary', 'body', 'tags')
+        search_fields = ('title', 'summary', 'body', 'tags')
 
         def published(self):
             """
