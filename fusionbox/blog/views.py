@@ -37,7 +37,7 @@ class IndexView(WithTagMixin, BlogContextMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        qs = Blog.objects.published().order_by('-created_at').select_related('author')
+        qs = Blog.objects.published().order_by('-publish_at').select_related('author')
         try:
             qs = qs.search(self.request.GET['search'])
         except KeyError:
