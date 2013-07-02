@@ -72,7 +72,7 @@ class Blog(behaviors.Timestampable, behaviors.SEO, behaviors.Publishable):
             # BlogTest.test_year_month_groups for a test that'll fail when
             # defer is used here.
             for obj in self:
-                res[obj.created_at.year][obj.created_at.month].append(obj)
+                res[obj.publish_at.year][obj.publish_at.month].append(obj)
 
             sorted_result = SortedDict()
             # defaultdicts don't work right in django templates (.items # resolves as ['items'])
