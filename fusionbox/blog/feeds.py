@@ -35,6 +35,8 @@ class BlogFeed(Feed):
         else:
             objs = Blog.objects.all()
 
+        objs = objs.published().order_by('-publish_at')
+
         limit = getattr(settings, 'BLOG_FEED_ITEMS', None)
         if limit is not None:
             objs = objs[:limit]
