@@ -6,6 +6,7 @@ try:
     User = get_user_model()
 except ImportError:
     from django.contrib.auth.models import User  # NOQA
+from django.conf import settings
 
 #
 # Support for django 1.3
@@ -22,8 +23,9 @@ from fusionbox.blog.models import Blog
 
 
 class BlogFeed(Feed):
-    title = "Blog"
+    title = getattr(settings, 'BLOG_TITLE', "Blog")
     link = reverse_lazy('blog:blog_index')
+    description = getattr(settings, 'BLOG_DESCRIPTION', None)
 
     def items(self, obj):
         if isinstance(obj, User):
