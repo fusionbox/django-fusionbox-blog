@@ -29,11 +29,16 @@ class BlogFeed(Feed):
 
     def items(self, obj):
         if isinstance(obj, User):
-            return obj.blogs.all()
+            objs = obj.blogs.all()
         elif isinstance(obj, Tag):
-            return TaggedItem.objects.get_by_model(Blog, obj)
+            objs = TaggedItem.objects.get_by_model(Blog, obj)
         else:
-            return Blog.objects.all()
+            objs = Blog.objects.all()
+
+        limit = getattr(settings, 'BLOG_FEED_ITEMS', None)
+        if limit is not None:
+            objs = objs[:limit]
+        return objs
 
     def item_description(self, item):
         return item.body
