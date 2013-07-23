@@ -7,6 +7,7 @@ try:
 except ImportError:
     from django.contrib.auth.models import User  # NOQA
 from django.conf import settings
+from django.utils import feedgenerator
 
 #
 # Support for django 1.3
@@ -26,6 +27,7 @@ class BlogFeed(Feed):
     title = getattr(settings, 'BLOG_TITLE', "Blog")
     link = reverse_lazy('blog:blog_index')
     description = getattr(settings, 'BLOG_DESCRIPTION', None)
+    feed_type = feedgenerator.Atom1Feed
 
     def items(self, obj):
         if isinstance(obj, User):
