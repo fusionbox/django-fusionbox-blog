@@ -74,7 +74,7 @@ class BlogDetailView(WithTagMixin, BlogContextMixin, DetailView):
     pass
 
 detail = BlogDetailView.as_view(
-        model=Blog,
+        queryset=Blog.objects.published(),
         context_object_name='post',
         template_name="blog/blog_details.html"
         )
