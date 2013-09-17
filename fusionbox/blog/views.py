@@ -71,10 +71,10 @@ index = IndexView.as_view(template_name="blog/blog_list.html")
 
 
 class BlogDetailView(WithTagMixin, BlogContextMixin, DetailView):
-    pass
+    model = Blog
+    context_object_name='post'
 
-detail = BlogDetailView.as_view(
-        queryset=Blog.objects.published(),
-        context_object_name='post',
-        template_name="blog/blog_details.html"
-        )
+    def get_queryset(self):
+        return super(BlogDetailView, self).get_queryset().published()
+
+detail = BlogDetailView.as_view(template_name="blog/blog_details.html")
