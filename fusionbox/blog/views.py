@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.views.generic import (ListView, DetailView)
 from django.core.cache import cache
 from django.shortcuts import get_object_or_404
@@ -52,6 +53,9 @@ class IndexView(WithTagMixin, BlogContextMixin, ListView):
             qs = self.model.tagged.with_all([self.kwargs['tag']], qs)
         except KeyError:
             pass
+
+        if not qs:
+            raise Http404
 
         return qs
 
