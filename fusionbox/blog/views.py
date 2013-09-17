@@ -16,7 +16,7 @@ from .models import Blog
 class WithTagMixin(object):
     def get_context_data(self, *args, **kwargs):
         context = super(WithTagMixin, self).get_context_data(*args, **kwargs)
-        context['tags'] = Tag.objects.all()
+        context['tags'] = Tag.objects.usage_for_queryset(self.get_queryset())
         return context
 
 
