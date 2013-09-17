@@ -7,7 +7,7 @@ __doc__="""
 Reusable blog application for Django
 """
 
-version = '1.0.0'
+version = '1.1.0-dev'
 
 setup(name='django-fusionbox-blog',
     version=version,
