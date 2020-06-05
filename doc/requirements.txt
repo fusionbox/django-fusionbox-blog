@@ -3,6 +3,6 @@
 -e git+ssh://git@github.com/fusionbox/django-ckeditor.git@master#egg=django_ckeditor-dev
 django-reversion==1.4
 django-extensions
-Django==1.4.1
+Django==1.11.29
 Fabric==1.4.3
 South
